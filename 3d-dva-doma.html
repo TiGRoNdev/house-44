@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>H-44D · Два дома · 3D-модель</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+    "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js",
+    "three/addons/exporters/OBJExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js",
+    "three/addons/exporters/GLTFExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT",
+    "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js": "sha384-4rziNxOBZKQ69i+w+f89KJ55TCYquwchVbByQwmaOeIOXdOU2PLDn3kOfXHwIJC9",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js": "sha384-nbwtoZENJD3Vq+ACK0CuGQdPMuDWHkamC2KJD70EV5nfg6jQjfppKOea07YJN+N3",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js": "sha384-VofkvpG6HERhFCYbsUOHeNXBCqID2nfqkQqnVzE1jc/oPcz+qJ13ADdXH08hE+cQ"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;height:100%;background:#f2f2f3;}
+  three-d-stage:not(:defined){visibility:hidden;}
+  three-d-stage{width:100vw;height:100vh;display:block;}
+  .hud{position:fixed;top:16px;left:20px;z-index:5;font-family:'Barlow Condensed',sans-serif;color:#1d1f20;}
+  .hud .k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5980a6;}
+  .hud h1{margin:2px 0 4px;font-size:28px;font-weight:600;text-transform:uppercase;line-height:1;}
+  .hud a{font-family:Barlow,sans-serif;font-size:13px;color:#41648a;}
+  .hud a:hover{color:#2c4763;}
+  .legend{position:fixed;bottom:18px;left:20px;z-index:5;font-family:Barlow,sans-serif;font-size:12.5px;line-height:1.5;color:#3a3f44;background:rgba(255,255,255,.82);padding:10px 14px;border-radius:8px;max-width:340px;}
+  .legend b{font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;}
+</style>
+</head>
+<body>
+<div class="hud">
+  <div class="k">Проект H-44D · участок 44×44 м · въезд с востока</div>
+  <h1>Два дома · основной 130 м² + гостевой 70 м²</h1>
+  <a href="smeta-3-goda-400k.html">→ смета и очереди</a>
+</div>
+<div class="legend">
+  <b>Генплан:</b> основной двухэтажный дом 9×7,5 м (~130 м²) — север;
+  гостевой одноэтажный 10×7 м (70 м², кровля-терраса с наружной лестницей) — юг;
+  между ними — игровая зона в центре участка; позади (запад) — крытый бассейн
+  15×8 с сауной и хаммамом; слева от построек (юг) — мангальная зона с беседкой;
+  парковка у ворот, септик — юго-восточный угол.
+</div>
+<three-d-stage name="house-h44d" background="#eef0f2" autorotate></three-d-stage>
+<script src="three-d-stage.js"></script>
+<script type="module">
+const stage = document.querySelector('three-d-stage');
+const { THREE } = await stage.ready;
+
+const M = {
+  white:  new THREE.MeshStandardMaterial({name:'concrete_light', color:0xe9e7e2, roughness:0.85}),
+  dark:   new THREE.MeshStandardMaterial({name:'fiber_black',    color:0x26282c, roughness:0.6, metalness:0.25}),
+  glass:  new THREE.MeshStandardMaterial({name:'glass',          color:0x7fa8c9, roughness:0.15, metalness:0.3, transparent:true, opacity:0.5}),
+  wood:   new THREE.MeshStandardMaterial({name:'wood_deck',      color:0xb08a5e, roughness:0.9}),
+  alu:    new THREE.MeshStandardMaterial({name:'aluminium',      color:0xb9bec4, roughness:0.45, metalness:0.35}),
+  led:    new THREE.MeshStandardMaterial({name:'led_strip',      color:0xffffff, emissive:0x8fc8ff, emissiveIntensity:1.6, roughness:0.3}),
+  water:  new THREE.MeshStandardMaterial({name:'water',          color:0x4fa3c7, roughness:0.1, transparent:true, opacity:0.85}),
+  lawn:   new THREE.MeshStandardMaterial({name:'lawn',           color:0x8fa77c, roughness:1}),
+  garden: new THREE.MeshStandardMaterial({name:'garden_green',   color:0x6f9463, roughness:1}),
+  paving: new THREE.MeshStandardMaterial({name:'paving',         color:0xc9c7c2, roughness:0.95}),
+  rubber: new THREE.MeshStandardMaterial({name:'play_rubber',    color:0xc98a5e, roughness:1}),
+  sand:   new THREE.MeshStandardMaterial({name:'sand',           color:0xe0cfa0, roughness:1}),
+  road:   new THREE.MeshStandardMaterial({name:'road_asphalt',   color:0x8e8e8e, roughness:1}),
+  septic: new THREE.MeshStandardMaterial({name:'septic_lid',     color:0xc8a94e, roughness:0.9}),
+  fence:  new THREE.MeshStandardMaterial({name:'fence_black',    color:0x1e1f22, roughness:0.8}),
+  leaf:   new THREE.MeshStandardMaterial({name:'foliage',        color:0x55764a, roughness:1}),
+  trunk:  new THREE.MeshStandardMaterial({name:'trunk',          color:0x6b543e, roughness:1}),
+};
+
+const g = new THREE.Group();
+function box(name, mat, w, h, d, x, y, z){
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  m.name = name; m.position.set(x, y, z); g.add(m); return m;
+}
+
+// координаты: +z — восток (дорога z>22), −z — запад; +x — юг, −x — север
+box('plot', M.lawn, 44, 0.2, 44, 0, -0.1, 0);
+box('road', M.road, 56, 0.16, 6, 0, -0.08, 25.4);
+
+// забор по периметру, ворота и калитка на восточной стороне
+const fh = 1.8;
+box('fence_w', M.fence, 44, fh, 0.12, 0, fh/2, -22);
+box('fence_n', M.fence, 0.12, fh, 44, -22, fh/2, 0);
+box('fence_s', M.fence, 0.12, fh, 44, 22, fh/2, 0);
+box('fence_east_a', M.fence, 12, fh, 0.12, -16, fh/2, 22);
+box('fence_east_b', M.fence, 6, fh, 0.12, 1, fh/2, 22);
+box('fence_east_c', M.fence, 14, fh, 0.12, 15, fh/2, 22);
+box('gate', M.alu, 6, fh-0.2, 0.1, -7, (fh-0.2)/2, 22);
+box('wicket', M.alu, 1.2, fh-0.2, 0.1, 5, (fh-0.2)/2, 22);
+
+// ======= ДОМ 1 · основной двухэтажный ~130 м² (9×7.5, 2 этажа) · север =======
+const A = {x0:-14.5, z0:-0.5, w:9, d:7.5};
+const a1h = 3.2, a2h = 3.0;
+const acx = A.x0+A.w/2, acz = A.z0+A.d/2;
+box('h1_plinth', M.dark, A.w+0.1, 0.35, A.d+0.1, acx, 0.175, acz);
+box('h1_floor1', M.white, A.w, a1h, A.d, acx, a1h/2, acz);
+box('h1_floor2', M.dark,  A.w, a2h, A.d, acx, a1h+a2h/2, acz);
+// LED-линия на стыке этажей
+box('h1_led', M.led, A.w-0.3, 0.08, 0.08, acx, a1h+0.04, A.z0+A.d+0.05);
+// витраж 1-го этажа: восток (вход) + юг (к игровой)
+box('h1_glazing_east',  M.glass, 6.5, 2.6, 0.14, acx, 1.55, A.z0+A.d+0.03);
+box('h1_glazing_south', M.glass, 0.14, 2.6, 5.5, A.x0+A.w+0.03, 1.55, acz);
+// ленты 2-го этажа: восток + юг + запад
+box('h1_ribbon_east', M.glass, 7.5, 1.4, 0.12, acx, a1h+1.7, A.z0+A.d+0.02);
+box('h1_ribbon_south', M.glass, 0.12, 1.4, 6, A.x0+A.w+0.02, a1h+1.7, acz);
+box('h1_ribbon_west', M.glass, 7.5, 1.4, 0.12, acx, a1h+1.7, A.z0-0.02);
+// парапет плоской кровли
+const aTop = a1h+a2h;
+box('h1_parapet_e', M.alu, A.w, 0.5, 0.14, acx, aTop+0.25, A.z0+A.d-0.07);
+box('h1_parapet_w', M.alu, A.w, 0.5, 0.14, acx, aTop+0.25, A.z0+0.07);
+box('h1_parapet_n', M.alu, 0.14, 0.5, A.d, A.x0+0.07, aTop+0.25, acz);
+box('h1_parapet_s', M.alu, 0.14, 0.5, A.d, A.x0+A.w-0.07, aTop+0.25, acz);
+// входное крыльцо с навесом
+box('h1_porch', M.paving, 3, 0.12, 2, acx, 0.16, A.z0+A.d+1);
+box('h1_canopy', M.dark, 3, 0.15, 2.2, acx, 2.7, A.z0+A.d+1);
+
+// ======= ДОМ 2 · гостевой одноэтажный 70 м² (10×7) с кровлей-террасой · юг =======
+const B = {x0:5, z0:-1, w:10, d:7};
+const bh = 3.3;
+const bcx = B.x0+B.w/2, bcz = B.z0+B.d/2;
+box('h2_plinth', M.dark, B.w+0.1, 0.35, B.d+0.1, bcx, 0.175, bcz);
+box('h2_body', M.dark, B.w, bh, B.d, bcx, bh/2, bcz);
+// витраж на север (к игровой зоне) и на восток (вход)
+box('h2_glazing_north', M.glass, 0.14, 2.6, 5.5, B.x0-0.03, 1.55, bcz);
+box('h2_glazing_east', M.glass, 4.5, 2.6, 0.14, bcx+1.5, 1.55, B.z0+B.d+0.03);
+// LED-линия по низу парапета
+box('h2_led', M.led, B.w-0.3, 0.08, 0.08, bcx, bh+0.04, B.z0+B.d+0.05);
+// эксплуатируемая кровля: дек + стеклянное ограждение
+box('h2_roof_deck', M.wood, B.w-0.4, 0.06, B.d-0.4, bcx, bh+0.09, bcz);
+box('h2_rail_n', M.glass, 0.08, 1.1, B.d-0.2, B.x0+0.06, bh+0.55, bcz);
+box('h2_rail_s', M.glass, 0.08, 1.1, B.d-0.2, B.x0+B.w-0.06, bh+0.55, bcz);
+box('h2_rail_e', M.glass, B.w-0.2, 1.1, 0.08, bcx, bh+0.55, B.z0+B.d-0.06);
+box('h2_rail_w', M.glass, B.w-0.2, 1.1, 0.08, bcx, bh+0.55, B.z0+0.06);
+// наружная лестница на кровлю — вдоль западного торца
+for (let i=0; i<11; i++){
+  box('h2_stair_step_'+(i+1), M.alu, 1.1, 0.09, 0.28, B.x0+B.w-0.55, 0.3+i*0.3, B.z0-0.4-i*0.28);
+}
+box('h2_stair_rail', M.alu, 0.06, 1.0, 3.4, B.x0+B.w-1.12, 2.2, B.z0-1.9);
+
+// ======= ИГРОВАЯ ЗОНА · центр участка, между домами =======
+box('play_pad', M.rubber, 8.5, 0.06, 9, -0.5, 0.13, 1.5);
+// качели: две стойки + перекладина + сиденья
+box('swing_post_1', M.alu, 0.12, 2.2, 0.12, -2.5, 1.1, -1.5);
+box('swing_post_2', M.alu, 0.12, 2.2, 0.12, 1.5, 1.1, -1.5);
+box('swing_beam', M.alu, 4.3, 0.1, 0.1, -0.5, 2.2, -1.5);
+box('swing_seat_1', M.wood, 0.6, 0.06, 0.25, -1.6, 0.6, -1.5);
+box('swing_seat_2', M.wood, 0.6, 0.06, 0.25, 0.6, 0.6, -1.5);
+// песочница
+box('sandbox_frame', M.wood, 2.6, 0.3, 2.6, -2.2, 0.3, 4.3);
+box('sandbox_sand', M.sand, 2.2, 0.28, 2.2, -2.2, 0.34, 4.3);
+// горка
+const slide = box('slide_ramp', M.alu, 0.7, 0.08, 3.2, 1.9, 1.05, 4.0);
+slide.rotation.x = -0.55;
+box('slide_tower', M.wood, 1.2, 1.8, 1.2, 1.9, 0.9, 5.7);
+
+// ======= БАССЕЙН · крытый павильон 15×8 с сауной и хаммамом · запад («позади») =======
+const P = {x0:-7.5, z0:-20, w:15, d:8};
+const ph = 3.6;
+const pcx = P.x0+P.w/2, pcz = P.z0+P.d/2;
+box('pool_plinth', M.dark, P.w, 0.35, P.d, pcx, 0.175, pcz);
+// остекление: восток (к участку) и юг; глухие стены: запад и север
+box('pool_glass_e', M.glass, P.w, ph-0.7, 0.12, pcx, (ph-0.7)/2+0.35, P.z0+P.d-0.06);
+box('pool_glass_s', M.glass, 0.12, ph-0.7, P.d, P.x0+P.w-0.06, (ph-0.7)/2+0.35, pcz);
+box('pool_wall_w', M.white, P.w, ph-0.7, 0.2, pcx, (ph-0.7)/2+0.35, P.z0+0.1);
+box('pool_wall_n', M.white, 0.2, ph-0.7, P.d, P.x0+0.1, (ph-0.7)/2+0.35, pcz);
+box('pool_roof', M.dark, P.w+0.2, 0.45, P.d+0.2, pcx, ph-0.05, pcz);
+// два сдвижных светопрозрачных фонаря на кровле
+box('pool_skylight_1', M.glass, 3.4, 0.35, 3, pcx-2.2, ph+0.3, pcz);
+box('pool_skylight_2', M.glass, 3.4, 0.35, 3, pcx+2.2, ph+0.3, pcz);
+// чаша и обход
+box('pool_deck', M.paving, P.w-0.6, 0.1, P.d-0.6, pcx, 0.4, pcz);
+box('pool_water', M.water, 8, 0.12, 3.5, pcx+1.5, 0.48, pcz+0.7);
+// сауна (дерево) и хаммам (светлый) — северный торец павильона
+box('sauna_block', M.wood, 2.6, 2.4, 3.2, P.x0+1.5, 1.55, pcz-2);
+box('hammam_block', M.white, 2.6, 2.4, 3.2, P.x0+1.5, 1.55, pcz+2);
+// дорожка от игровой зоны к бассейну
+box('path_pool', M.paving, 1.6, 0.06, 8, -0.5, 0.13, -8);
+
+// ======= МАНГАЛЬНАЯ ЗОНА С БЕСЕДКОЙ · юг («слева от построек») =======
+const G = {cx:17, cz:-8};
+box('gazebo_deck', M.wood, 5, 0.1, 5, G.cx, 0.18, G.cz);
+for (const [i,[dx,dz]] of [[-2,-2],[2,-2],[-2,2],[2,2]].entries()){
+  box('gazebo_post_'+(i+1), M.wood, 0.16, 2.6, 0.16, G.cx+dx, 1.4, G.cz+dz);
+}
+box('gazebo_roof', M.dark, 5.4, 0.18, 5.4, G.cx, 2.85, G.cz);
+box('bbq_grill', M.dark, 1.4, 1.0, 0.7, G.cx+1.2, 0.68, G.cz-2.9);
+const chimney = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,1.2,12), M.alu);
+chimney.name='bbq_chimney'; chimney.position.set(G.cx+1.2, 1.9, G.cz-2.9); g.add(chimney);
+box('gazebo_table', M.wood, 2.2, 0.75, 1.0, G.cx-0.5, 0.55, G.cz);
+box('path_bbq', M.paving, 1.4, 0.06, 6, 13, 0.13, -5.5);
+
+// ======= ДВОР · парковка, дорожки, септик, сад =======
+// подъезд от ворот к парковке (север у въезда)
+box('driveway', M.paving, 6, 0.06, 10, -7, 0.13, 17);
+box('parking_pad', M.paving, 7, 0.08, 6, -9, 0.14, 11);
+// дорожка от калитки к игровой зоне и домам
+box('path_entry', M.paving, 1.6, 0.06, 14, 5, 0.13, 14.5);
+box('path_split', M.paving, 10, 0.06, 1.6, 0, 0.13, 7.5);
+// септик: юго-восточный угол
+box('septic_pad', M.septic, 4, 0.12, 4, 17.5, 0.16, 17.5);
+for (const [i,lx] of [16.5,18.5].entries()){
+  const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,0.12,24), M.dark);
+  lid.name = 'septic_lid_'+(i+1);
+  lid.position.set(lx, 0.28, 17.5); g.add(lid);
+}
+// сад: полосы зелени по северу и юго-востоку
+box('garden_north', M.garden, 6, 0.06, 30, -18.5, 0.13, 2);
+box('garden_se', M.garden, 10, 0.06, 6, 14, 0.13, 12);
+const treeSpots = [[-19,-14],[-19,-4],[-19,6],[-18,14],[19,4],[20,12],[12,17],[-14,19],[20,-16],[12,-19],[-2,19]];
+treeSpots.forEach(([tx,tz],i)=>{
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.16,1.4,10), M.trunk);
+  trunk.name='tree_trunk_'+(i+1); trunk.position.set(tx,0.7,tz); g.add(trunk);
+  const crown = new THREE.Mesh(new THREE.SphereGeometry(1.1,20,14), M.leaf);
+  crown.name='tree_crown_'+(i+1); crown.position.set(tx,2.1,tz); crown.scale.y=1.15; g.add(crown);
+});
+
+stage.setObject(g);
+</script>
+</body>
+</html>
