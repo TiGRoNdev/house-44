@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H-44 · Лист 6 · Сводная смета и сравнение технологий</title>
+<style>
+  :root{
+    --bg:#101216; --panel:#181b21; --panel2:#1f232b; --line:#2b303a;
+    --txt:#e8eaee; --mut:#9aa1ad; --acc:#ffb02e; --ok:#4cc38a; --warn:#ff6b57; --blu:#5aa7ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 "Segoe UI",Roboto,Arial,sans-serif;padding:32px 16px}
+  .wrap{max-width:1120px;margin:0 auto}
+  h1{font-size:26px;margin:0 0 4px;letter-spacing:.5px}
+  h2{font-size:18px;margin:40px 0 12px;color:var(--acc);letter-spacing:.4px}
+  h3{font-size:15px;margin:22px 0 8px;color:var(--txt)}
+  .sub{color:var(--mut);margin-bottom:24px}
+  .kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:20px 0}
+  .kpi div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .kpi b{display:block;font-size:20px;margin-bottom:2px}
+  .kpi span{color:var(--mut);font-size:13px}
+  .verdict{background:var(--panel2);border-left:4px solid var(--acc);border-radius:8px;padding:16px 18px;margin:18px 0}
+  .verdict.green{border-left-color:var(--ok)}
+  .verdict.red{border-left-color:var(--warn)}
+  .tblbox{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+  table{border-collapse:collapse;width:100%;min-width:660px;font-size:14px}
+  th{background:var(--panel2);text-align:left;padding:10px 12px;color:var(--mut);font-weight:600;white-space:nowrap}
+  td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+  .r{text-align:right;white-space:nowrap}
+  .tag{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-size:12px;color:var(--mut);white-space:nowrap}
+  .tag.hot{color:var(--acc);border-color:var(--acc)}
+  .tag.new{color:var(--ok);border-color:var(--ok)}
+  .tag.warn{color:var(--warn);border-color:var(--warn)}
+  a{color:var(--blu);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .note{color:var(--mut);font-size:13px;margin-top:8px}
+  ul{margin:8px 0 0 18px;padding:0}
+  li{margin:4px 0}
+  .foot{margin-top:48px;color:var(--mut);font-size:13px;border-top:1px solid var(--line);padding-top:14px}
+
+  /* calculator */
+  .calc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:20px 0}
+  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media (max-width:760px){.calc-grid{grid-template-columns:1fr}}
+  .opt-group{margin-bottom:18px}
+  .opt-group > .lbl{font-family:inherit;font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-bottom:8px}
+  .opt{display:flex;align-items:flex-start;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;margin-bottom:7px;cursor:pointer;background:var(--panel2);transition:border-color .15s}
+  .opt:hover{border-color:#3c4250}
+  .opt.checked{border-color:var(--acc)}
+  .opt input{margin-top:3px;accent-color:var(--acc);width:16px;height:16px;flex:none}
+  .opt .otxt b{display:block;font-size:14px}
+  .opt .otxt span{display:block;font-size:12.5px;color:var(--mut);margin-top:1px}
+  .opt .odelta{margin-left:auto;font-size:12.5px;color:var(--acc);white-space:nowrap;padding-left:8px}
+  .result{background:var(--panel2);border:1px solid var(--acc);border-radius:12px;padding:18px 20px;position:sticky;top:16px}
+  .result .rk{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+  .result .rv{font-size:30px;font-weight:600;margin:2px 0 10px;color:var(--acc)}
+  .result .rv2{font-size:18px;font-weight:600;margin:2px 0 4px}
+  .result .rw{font-size:13px;color:var(--warn);margin-top:10px;display:none}
+  .result .rw.show{display:block}
+  .result .rlist{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.7}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>Проект H-44 · Лист 6 · Сводная смета и сравнение технологий</h1>
+<div class="sub">Вариант B: П-образный дом 210 м² (Лист 5) + крытый бассейн 16×9 с сауной/хаммамом + гараж 56 м²/навес + мангальная зона с беседкой. МО, Воскресенский район, ДП Рыболово-2. Темп 400 т₽/мес. Участок, забор, вода, электричество — готовы.<br>
+<b>Изменение премисы:</b> весь дом, септик и все конструкции строятся наёмными бригадами (не самостройкой) — смета пересчитана вверх против Листа 5, где часть работ (монтаж каркаса, чистовая отделка) закладывалась как «сам + помощник». Цены — ориентиры РФ, 2026, не тендерная смета.</div>
+
+<div class="kpi">
+  <div><b>18,8–26,4 млн ₽</b><span>полный проект под ключ, все работы бригадами (диапазон по трём технологиям стен)</span></div>
+  <div><b>47–66 мес</b><span>срок при 400 т₽/мес — верхняя вилка ЛСТК близка к потолку 5 лет</span></div>
+  <div><b>Газоблок / Дерево</b><span>дешевле ЛСТК на ~0,7–1,1 млн при найме бригад на все работы</span></div>
+  <div><b>3 технологии × 5 опций</b><span>ниже — калькулятор с чекбоксами, считает сумму и срок сразу</span></div>
+</div>
+
+<div class="verdict green"><b>Короткий вывод:</b> при полном найме бригад разница между ЛСТК, деревянным каркасом и газоблоком по деньгам небольшая (0,2–1,1 млн на полном проекте), но дерево и особенно газоблок стабильно выигрывают у стали и держат верхнюю вилку в пределах 5 лет, тогда как у ЛСТК верхняя вилка (66 мес) выходит за потолок. Если стройка полностью на бригадах — минимализм ЛСТК как единственного решения больше не оправдан; выбирайте по разделу 2 ниже.</div>
+
+<h2>1 · Калькулятор сметы: выберите технологию и опции</h2>
+<div class="calc">
+  <div class="calc-grid">
+    <div>
+      <div class="opt-group">
+        <div class="lbl">Технология несущих стен (выбрать одну)</div>
+        <label class="opt" data-group="wall" data-min="5.7" data-max="7.0">
+          <input type="checkbox" name="wall" value="lstk">
+          <div class="otxt"><b>ЛСТК (стальной каркас)</b><span>завод + монтаж бригадой, оцинковка 50+ лет</span></div>
+          <div class="odelta">5,7–7,0 млн</div>
+        </label>
+        <label class="opt" data-group="wall" data-min="5.0" data-max="6.3">
+          <input type="checkbox" name="wall" value="wood">
+          <div class="otxt"><b>Деревянный каркас (платформа)</b><span>дешевле стали на 15–25%, тёплее на ощупь</span></div>
+          <div class="odelta">5,0–6,3 млн</div>
+        </label>
+        <label class="opt checked" data-group="wall" data-min="4.8" data-max="6.2">
+          <input type="checkbox" name="wall" value="gazblok" checked>
+          <div class="otxt"><b>Газоблок D500 400 мм</b><span class="tag new" style="margin-top:3px">рекомендуем</span><span>кладка бригадой, тепловая масса, тише, армопояс под витражи</span></div>
+          <div class="odelta">4,8–6,2 млн</div>
+        </label>
+      </div>
+
+      <div class="opt-group">
+        <div class="lbl">Опции (можно комбинировать)</div>
+        <label class="opt" data-min="0.8" data-max="1.2">
+          <input type="checkbox" id="opt-tn">
+          <div class="otxt"><b>Тепловой насос сразу</b><span>вместо электрокотла на входе и ТН вторым темпом</span></div>
+          <div class="odelta">+0,8–1,2 млн</div>
+        </label>
+        <label class="opt" data-min="0.4" data-max="0.6">
+          <input type="checkbox" id="opt-chasha">
+          <div class="otxt"><b>Увеличенная чаша бассейна 10×4</b><span>вместо базовой компактной 8×3,7 м</span></div>
+          <div class="odelta">+0,4–0,6 млн</div>
+        </label>
+        <label class="opt" data-min="0.2" data-max="0.4">
+          <input type="checkbox" id="opt-sdvizh">
+          <div class="otxt"><b>Сдвижные секции кровли бассейна</b><span>вместо стационарных светопрозрачных фонарей</span></div>
+          <div class="odelta">+0,2–0,4 млн</div>
+        </label>
+        <label class="opt" data-min="0.2" data-max="0.3">
+          <input type="checkbox" id="opt-garage">
+          <div class="otxt"><b>Чистовая отделка гаража + автоматика ворот</b><span>вместо холодной коробки без отделки</span></div>
+          <div class="odelta">+0,2–0,3 млн</div>
+        </label>
+        <label class="opt" data-min="0.3" data-max="0.5">
+          <input type="checkbox" id="opt-landscape">
+          <div class="otxt"><b>Полный ландшафтный дизайн</b><span>вместо базового благоустройства и озеленения</span></div>
+          <div class="odelta">+0,3–0,5 млн</div>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <div class="result">
+        <div class="rk">Итого проект под ключ</div>
+        <div class="rv" id="res-total">—</div>
+        <div class="rk">Срок при 400 т₽/мес</div>
+        <div class="rv2" id="res-months">—</div>
+        <div class="rw" id="res-warn">Верхняя вилка выходит за потолок 5 лет (60 мес) — сужайте состав опций или увеличивайте темп финансирования.</div>
+        <div class="rlist">
+          Базовая часть (проект, земля, УШП, кровля, витражи, переход, инженерия, отделка, базовый бассейн, гараж-коробка, мангал, септик, базовое благоустройство) входит всегда.<br>
+          Диапазоны — ориентиры РФ 2026 при найме бригад на все работы, не тендерная смета.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>2 · Сравнение технологий стен: полная картина</h2>
+<div class="tblbox"><table>
+<tr><th></th><th>ЛСТК (сталь)</th><th>Деревянный каркас</th><th>Газоблок D500 400</th></tr>
+<tr><td>УШП + несущие стены</td><td class="r">5,7–7,0 млн</td><td class="r">5,0–6,3 млн</td><td class="r">4,8–6,2 млн</td></tr>
+<tr><td>Полный проект под ключ (база, без опций)</td><td class="r"><b>19,7–26,35 млн</b></td><td class="r"><b>19,0–25,65 млн</b></td><td class="r"><b>18,8–25,55 млн</b></td></tr>
+<tr><td>Срок при 400 т₽/мес</td><td class="r">49–66 мес</td><td class="r">48–64 мес</td><td class="r">47–64 мес</td></tr>
+<tr><td>Запас до потолка 5 лет (60 мес)</td><td class="r"><span class="tag warn">верх вилки за потолком</span></td><td class="r"><span class="tag new">−4 мес запас</span></td><td class="r"><span class="tag new">−4 мес запас, дешевле всех</span></td></tr>
+<tr><td>Монтаж</td><td>круглый год, сухой, крана не требует (одноэтажный дом)</td><td>круглый год, сухой, простые узлы</td><td>только апрель–октябрь (кладка), нужен армопояс под витражи</td></tr>
+<tr><td>Тепловая масса / шумоизоляция</td><td>низкая, нужны термовкладыши от мостиков холода</td><td>средняя, мостиков холода почти нет</td><td>высокая — ровнее держит температуру, тише</td></tr>
+<tr><td>Долговечность</td><td>50+ лет (оцинковка 275 г/м²)</td><td>50+ лет при антисептике и вентзазоре</td><td>100+ лет (автоклавный, при защите от влаги)</td></tr>
+<tr><td>Нагрузка на фундамент</td><td>минимальная</td><td>минимальная</td><td>выше — плита пересчитывается под вес блока</td></tr>
+<tr><td>Главный риск</td><td>дороже всех при найме бригад на монтаж</td><td>чуть выше требований к качеству антисептирования</td><td>сезонность кладки, точный расчёт армопояса под витражи двора</td></tr>
+</table></div>
+<p class="note">Расчёт — для «холодного» гаража/навеса технология стен не меняется: единая лёгкая ЛСТК-рама остаётся в базе для всех трёх вариантов, это не влияет на выбор конструктива основного дома.</p>
+
+<h2>3 · Полная смета по разделам (база, без опций)</h2>
+<div class="tblbox"><table>
+<tr><th>Раздел</th><th class="r">млн ₽</th><th>Неделимый пакет / примечание</th></tr>
+<tr><td>Проект, геология, топосъёмка</td><td class="r">0,5–0,7</td><td>КЖ УШП, КМД стен по выбранной технологии, теплотехника, ЭОМ/ВК</td></tr>
+<tr><td>Земляные работы, дренаж, гильзы</td><td class="r">0,45–0,6</td><td>гильзы на бассейн-запад, гараж-восток, септик</td></tr>
+<tr><td>УШП 210 м² + несущие стены</td><td class="r">4,8–7,0</td><td><span class="tag hot">Ф-1</span> плита — одна заливка; см. раздел 2 по вариантам</td></tr>
+<tr><td>Фальцевая кровля 273 м² по скатам</td><td class="r">1,15–1,4</td><td>детальный расчёт — Лист 5, раздел 3</td></tr>
+<tr><td>Витражи двора, галерея к СПА, окна, двери</td><td class="r">1,0–1,35</td><td><span class="tag hot">В-1</span> один заказ, один монтаж</td></tr>
+<tr><td>Крытый переход дом↔гараж</td><td class="r">0,2–0,35</td><td>лёгкий неотапливаемый каркас</td></tr>
+<tr><td>Черновая инженерия (котельная, ВК, вентиляция)</td><td class="r">0,9–1,2</td><td>электрокотёл на входе; ТН — опция в калькуляторе</td></tr>
+<tr><td>Чистовая отделка 210 м²</td><td class="r">2,1–2,6</td><td>полы, стены, сантех. приборы, кухня, освещение</td></tr>
+<tr><td>Финишная электрика и слаботочка</td><td class="r">0,55–0,8</td><td>после чернового ввода</td></tr>
+<tr><td>Крытый бассейн 16×9, база (чаша 8×3,7, стационарные фонари)</td><td class="r">4,0–5,9</td><td><span class="tag hot">Ч-1</span> композитная чаша, сауна, хаммам, водоподготовка</td></tr>
+<tr><td>Гараж 56 м² + навес (холодная коробка)</td><td class="r">2,0–2,7</td><td>единая ЛСТК-рама, плита под авто</td></tr>
+<tr><td>Мангальная зона с беседкой</td><td class="r">0,4–0,6</td><td>настил, каркасная беседка, мангал</td></tr>
+<tr><td>Септик под ключ</td><td class="r">0,15–0,25</td><td>станция + монтаж, выпуск</td></tr>
+<tr><td>Благоустройство и сад (база)</td><td class="r">0,6–0,9</td><td>дорожки, LED-подсветка, озеленение</td></tr>
+<tr><td colspan="2" class="r"><b>ИТОГО база (в зависимости от технологии стен)</b></td><td class="r"><b>18,8–26,35</b></td></tr>
+</table></div>
+<p class="note">Резерв 2 мес темпа (≈ 800 т₽) в смету не входит и не тратится на текучку. Сезонные привязки: плита Ф-1 и (для газоблока) кладка стен — апрель–октябрь; кровля и внутренние работы — круглый год.</p>
+
+<h2>4 · Опции калькулятора отдельно</h2>
+<div class="tblbox"><table>
+<tr><th>Опция</th><th class="r">млн ₽</th><th>Зачем</th></tr>
+<tr><td>Тепловой насос сразу</td><td class="r">+0,8–1,2</td><td>экономит 150–250 т₽/год на отоплении с первого сезона вместо второго темпа</td></tr>
+<tr><td>Увеличенная чаша бассейна 10×4</td><td class="r">+0,4–0,6</td><td>вместо компактной 8×3,7 — если важнее размер, чем скорость выхода в бюджет</td></tr>
+<tr><td>Сдвижные секции кровли бассейна</td><td class="r">+0,2–0,4</td><td>открытое небо над чашей летом вместо стационарных фонарей</td></tr>
+<tr><td>Чистовая отделка гаража + автоматика ворот</td><td class="r">+0,2–0,3</td><td>гараж как жилое пространство, а не склад</td></tr>
+<tr><td>Полный ландшафтный дизайн</td><td class="r">+0,3–0,5</td><td>проектное озеленение вместо базового благоустройства</td></tr>
+</table></div>
+
+<h2>5 · Подрядчики и поставщики по разделам · МО, Воскресенское направление</h2>
+<h3>Технология стен</h3>
+<div class="tblbox"><table>
+<tr><th>Технология</th><th>Кто / где</th><th class="r">Ориентир</th></tr>
+<tr><td>ЛСТК-домокомплект</td><td><a href="https://lstk-msk.ru/">ЛСТКстройГрупп</a> · <a href="https://dokadom.com/doma/lstk/">ДОКА</a> · <a href="https://moscow.profi26.ru/proizvodstvo/">PROFI</a></td><td class="r">от ~4 т₽/м² материал</td></tr>
+<tr><td>Деревянный каркас под ключ</td><td><a href="https://wood-brus.ru/dostavka-i-oplata/karkasnye-doma-v-mo">Wood-Brus (МО)</a> · <a href="https://dekardkarkas.ru/">ДЭКАРД — круглогодичное строительство, 3D-технология</a> · <a href="https://woodenfort.ru/karkasnye-doma/">WoodenFort</a> · <a href="https://iliya-rus.ru/service/karkasnye-doma">Илья-Рус</a></td><td class="r">от 35–40 т₽/м² под ключ</td></tr>
+<tr><td>Дома из газобетона под ключ (бригада)</td><td><a href="https://www.vigvam.ru/projects/doma-iz-gazobetona/">Вигвам.ру</a> · <a href="https://dom-beton.com/stroitelstvo-v-moskovskoj-oblasti/">Дом Бетон (МО)</a> · <a href="https://m-su.ru/uslugi/stroitelstvo-kamennyh-domov/gazabeton/">СВС — от 18 000 ₽/м²</a> · <a href="https://kir-bet.ru/catalog/doma-iz-gazobetonnykh-blokov/">КИРБЕТ — гарантия 10 лет</a> · <a href="https://domvm.ru/stroitelstvo-kamennyh-domov/stroitelstvo-domov-iz-gazobetona/">Дом Мечты</a></td><td class="r">от ~18 т₽/м² под ключ</td></tr>
+<tr><td>Газобетонный блок D400/D500 (материал)</td><td><a href="https://sm.lsr.ru/msk/catalog/kirpich-gazobeton/gazobeton/kikerinskiy-gazobetonnyy-zavod/plotnost-d500_2/bloki-iz-gazobetona-d500-400-250-625/">ЛСР</a> · <a href="https://ekoyar.ru/podbor/gazobetonnye-bloki-d500-400-mm">ЭКОЯР</a> · <a href="https://buildstock.ru/products/gazobetonnye-bloki/stenovoy-gazobetonnyy-blok-bonolit-d500-600x400x200.html">Бонолит</a> · <a href="https://all-brick.ru/gazosilikatnye-bloki/kaluzhskie-gazobetonnye-stenovye-bloki-625x250x500-d400">Калужский газобетон</a></td><td class="r">рыночная цена блока</td></tr>
+</table></div>
+<h3>Общие разделы (не зависят от технологии стен)</h3>
+<div class="tblbox"><table>
+<tr><th>Этап</th><th>Кто / где</th><th class="r">Ориентир</th></tr>
+<tr><td>Геология, топосъёмка</td><td><a href="https://geozemservis.com/geodeziya-voskresenskiy-rayon/inzhenerno-geologicheskie-izyskaniya/">ГеоЗемСервис — Воскресенский район</a> · <a href="https://gdta.ru/uslugi/inzhenerno-geologicheskie-izyskaniya-v-moskovskoj-oblasti-2/inzhenerno-geologicheskie-izyskaniya-v-ramenskom-rajone-moskovskoj-oblasti/">ГДТА</a> · <a href="https://geomergroup.ru/rajon/ramenskij-rajon/ramenskoe/geologiya-uchastka-v-ramenskom/">Геомер Групп</a></td><td class="r">45–100 т₽</td></tr>
+<tr><td>Бетон B25 с доставкой</td><td><a href="https://beton-vos.ru/">Воскресенский бетонный завод</a> · <a href="https://www.01beton.ru/beton/voskresensk/">01Бетон</a> · <a href="https://voskresensk.gamma-beton.ru/">Гамма-Бетон</a></td><td class="r">от ~2,7–3 т₽/м³</td></tr>
+<tr><td>УШП под ключ</td><td><a href="https://bauplate.ru/">Bauplate</a> · <a href="https://ramenskoe.svaifund.ru/fundament-ushp/">СвайФунд</a> · <a href="https://fundamenty1.ru/ushp-fundament/">Фундамент №1</a></td><td class="r">~9,5–13 т₽/м²</td></tr>
+<tr><td>Фальцевая кровля</td><td><a href="https://roof.ru/prices/montazh_krovli/">Roof.ru</a> · <a href="https://favor-group.ru/montag/krovelnye-raboty/faltsevoy-krovli/">ФС-Групп</a> · <a href="https://oooprofikrov.ru/montazh-falcevoj-krovli/">Профикров</a> · <a href="https://smol-krovlya.ru/krovelnye-raboty/montazh-falcevoy-krovli">Смоленский Кровельщик</a> · <a href="https://profi.ru/geo-spb/remont/krovli/price/">Профи.ру</a></td><td class="r">≈1,15–1,4 млн под ключ</td></tr>
+<tr><td>Витражи (тёплый алюминий)</td><td><a href="https://alustroy.pro/glazing/cottages-glazing/panoramnoe-osteklenie-doma/">Алюстрой</a> · <a href="https://disaglass.ru/osteklenie-fasadov/dlya-doma">Disaglass</a> · <a href="https://al-solution.ru/services/osteklenie-domov">AL-Solution</a></td><td class="r">~12–16 т₽/м²</td></tr>
+<tr><td>Септик под ключ</td><td><a href="https://sewera.ru/septiki/">Sewera</a> · <a href="https://gidro-ekspert.ru/septic">Гидроэксперт (Топас)</a> · <a href="https://septik-good.ru/montaj">Септик-Гуд</a></td><td class="r">150–250 т₽</td></tr>
+<tr><td>Вентиляция с рекуперацией</td><td><a href="https://climatecontrol24.ru/doma/ventilyatsiya/">Климат Контроль</a> · <a href="https://m-cond.ru/montazh-ventilyatsii/">M-Cond</a></td><td class="r">250–450 т₽</td></tr>
+<tr><td>Тепловой насос</td><td><a href="https://termopirs.ru/tn_pod_kluch/">ТермоПирс</a> · <a href="https://fesdem.ru/bytovye-konditsionery/montazh-teplovogo-nasosa/">Фесдем Климат</a></td><td class="r">под ключ 0,8–1,5 млн</td></tr>
+<tr><td>Композитная чаша бассейна</td><td><a href="https://vodnyput.ru/">ФРАНМЕР (Водный путь)</a> · <a href="https://composit-pools.ru/katalog/basseyny/">Composit Group</a> · <a href="https://1pools.ru/catalog/basseyny/kompozitnye/">1Pools</a></td><td class="r">под ключ 1,5–2,5 млн</td></tr>
+<tr><td>Сдвижные секции кровли бассейна</td><td><a href="https://www.seccon.ru/catalog/">Seccon</a> · <a href="https://www.aquarai.ru/katalog/pavilony-i-kupalnye-zaly/">Aquarai</a></td><td class="r">от ~250 т₽ за секцию</td></tr>
+</table></div>
+<p class="note">Ссылки — стартовые точки для КП, не рекомендация конкретного исполнителя. На каждый неделимый пакет (Ф-1, В-1, Ч-1) — минимум 3 КП, договор с поэтапной оплатой по актам; для газоблока и кровли — фиксация цены при заказе материала (сезонный и валютный риск).</p>
+
+<h2>6 · Риски</h2>
+<ul>
+<li><b>Полный найм поднимает итог на 1,4–3,9 млн против самостройки (Лист 5)</b> — это цена отказа от «сам + помощник»; учитывайте при выборе, кто реально будет на площадке.</li>
+<li><b>Инфляция ≈ 8–12 %/год</b> на горизонте 47–66 мес — копить неделимые пакеты с запасом транша, резерв 800 т₽ не трогать.</li>
+<li><b>Газоблок:</b> геология и КЖ плиты должны сразу считаться под вес блока — переход с лёгкой на тяжёлую технологию после проекта означает пересчёт фундамента.</li>
+<li><b>Сезонность кладки газоблока</b> — то же окно апрель–октябрь, что и у плиты; при сдвиге на зиму кладка ждёт следующего сезона.</li>
+<li><b>ЛСТК при найме бригад теряет главное преимущество</b> (скорость самостройки) и становится самым дорогим из трёх вариантов — держите его в сравнении только если есть причина сильнее цены (например, минимальный вес конструкции важен по грунтам).</li>
+<li><b>Мощность ввода</b> — при выборе опции «ТН сразу» проверить выделенные 15 кВт до проекта ЭОМ.</li>
+</ul>
+
+<div class="foot">Проект H-44 · Лист 6 · сводная смета от 2026-07 · вариант B (П-образный дом 210 м², Лист 5) при найме бригад на все работы · калькулятор пересчитывает сумму и срок по выбранной технологии стен и опциям. Цены ориентировочные, фиксируются коммерческими предложениями. См. также: Лист 4 (мастер-план, два дома), Лист 5 (П-дом, самостройка).</div>
+
+</div></body>
+<script>
+(function(){
+  var wallOpts = Array.prototype.slice.call(document.querySelectorAll('.opt[data-group="wall"]'));
+  var addonOpts = Array.prototype.slice.call(document.querySelectorAll('.opt:not([data-group])'));
+  var BASE_MIN = 14.00, BASE_MAX = 19.35;
+
+  function fmt(v){ return v.toFixed(1).replace('.', ','); }
+
+  function recalc(){
+    var wallMin=0, wallMax=0;
+    wallOpts.forEach(function(o){
+      var cb=o.querySelector('input');
+      o.classList.toggle('checked', cb.checked);
+      if(cb.checked){ wallMin=parseFloat(o.dataset.min); wallMax=parseFloat(o.dataset.max); }
+    });
+    var addMin=0, addMax=0;
+    addonOpts.forEach(function(o){
+      var cb=o.querySelector('input');
+      o.classList.toggle('checked', cb.checked);
+      if(cb.checked){ addMin+=parseFloat(o.dataset.min); addMax+=parseFloat(o.dataset.max); }
+    });
+    var totalMin = BASE_MIN + wallMin + addMin;
+    var totalMax = BASE_MAX + wallMax + addMax;
+    document.getElementById('res-total').textContent = fmt(totalMin)+'–'+fmt(totalMax)+' млн ₽';
+    var monMin = Math.round(totalMin/4.8*12);
+    var monMax = Math.round(totalMax/4.8*12);
+    document.getElementById('res-months').textContent = monMin+'–'+monMax+' мес';
+    document.getElementById('res-warn').classList.toggle('show', monMax>60);
+  }
+
+  wallOpts.forEach(function(o){
+    var cb=o.querySelector('input');
+    cb.addEventListener('change', function(){
+      if(cb.checked){ wallOpts.forEach(function(other){ if(other!==o) other.querySelector('input').checked=false; }); }
+      else { cb.checked = true; } // ровно одна технология всегда выбрана
+      recalc();
+    });
+  });
+  addonOpts.forEach(function(o){
+    o.querySelector('input').addEventListener('change', recalc);
+  });
+
+  recalc();
+})();
+</script>
+</html>
